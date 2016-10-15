@@ -1,1 +1,1 @@
-#Maven+SpringMVC+Spring+Mybatis集成环境,供新手参考学习
+##cqupt-bbs,
