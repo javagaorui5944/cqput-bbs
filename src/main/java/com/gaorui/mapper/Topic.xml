@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gaorui.dao.TopicDao">
+  
+    <!-- id是唯一标识符，与Mapper接口的方法名保持一致，参数类型parameterType是参数类型的全限定名，这里使用的是别名 -->  
+    <select id="getTopics" resultType="map">
+    SELECT tid,uid,nid,title,weight,create_time,update_time,status  FROM  t_topic
+    where status =1 ORDER by update_time limit #{pageSize},10;
+    </select>
+
+    <select id="getTopicCount" resultType="int">
+
+    select count(*) from t_topic where status=1
+    </select>
+
+    <select id="ShowTopicDetails" resultType="map">
+      select uid,title,content,is_top,weight,create_time,update_time from t_topic where tid=#{topicId}
+    </select>
+</mapper>  

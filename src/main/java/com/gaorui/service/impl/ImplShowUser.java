@@ -13,7 +13,7 @@ public class ImplShowUser implements IShowUser {
 	@Autowired  
 	private UserDao userDao;
 	
-//	@Override
+	@Override
 	public List<UserBean> ShowUser() {
 		// TODO Auto-generated method stub
 		return userDao.ShowUser();
