@@ -35,4 +35,12 @@ public class ImplShowTopic implements IShowTopic {
     public Map<String, Object> ShowTopicDetails(int topicId) {
         return topicDao.ShowTopicDetails(topicId);
     }
+
+    @Override
+    public List<Map<String,Object>> ShowTopicComment(int topicId,int pageSize) {
+
+        pageSize = pageSize*10-10;
+
+        return topicDao.ShowTopicComment(topicId,pageSize);
+    }
 }

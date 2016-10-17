@@ -46,7 +46,11 @@ public class TopicController {
     }
 
 
-
+    /**
+     * 返回帖子上端具体详情
+     * @param topicId
+     * @return
+     */
     @RequestMapping(value="ShowTopicDetails")
     @ResponseBody
     public JSONObject ShowTopicDetails
@@ -54,5 +58,25 @@ public class TopicController {
 
         return CommonUtil.constructResponse(1,"topicCount",iShowTopic.ShowTopicDetails(topicId));
     }
+
+
+    /**
+     * 返回贴子评论
+     * @param topicId
+     * @param pageSize
+     * @return
+     */
+    @RequestMapping(value="ShowTopicComment")
+    @ResponseBody
+    public JSONObject ShowTopicComment
+            (@RequestParam(value = "topicId" , required = true) int topicId,
+             @RequestParam(value = "pageSize" , required = false) Integer pageSize){
+
+          if(pageSize ==null){
+                pageSize =1;
+          }
+        return CommonUtil.constructResponse(1,"topicCount",iShowTopic.ShowTopicComment(topicId,pageSize));
+    }
+
 
 }

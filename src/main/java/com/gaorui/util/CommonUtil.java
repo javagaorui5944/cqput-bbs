@@ -28,30 +28,7 @@ public class CommonUtil {
         jo.put("data", data);
         return jo;
     }
-    /**
-     * 返回的数据进行格式转换，并且进行 html 转义
-     * 
-     * @param code
-     *            状态标示
-     * @param msg
-     *            描述信息
-     * @param data
-     *            需要返回的数据
-     * @return
-     */
-    public static JSONObject constructHtmlResponse(int code, String msg,
-            Object data) {
-        // &lt; 对应符号< , &gt; 对应符号>
-        JSONObject jo = new JSONObject();
-        jo.put("code", code);
-        jo.put("msg", msg);
-        jo.put("data", data);
-        // String json = jo.toJSONString().replaceAll("&",
-        // "&amp;").replaceAll("\"", "&quot;").replaceAll("'",
-        // "&acute;").replaceAll("<", "&lt;").replaceAll(">","&gt;");
-        // return JSONObject.parseObject(json);
-        return jo;
-    }
+
     /**
      * 返回的数据进行格式转换，并且进行 html 转义
      * 
@@ -171,100 +148,8 @@ public class CommonUtil {
         }
         return false;
     }
-    /*
-     * author: jipeng date: 2013-10-16 purpose: 将时间范围统一为标准表示形式，如9-12 -->
-     * 9:00-12:00
-     */
-    public static String normalizeTimeRange(String range) {
-        if (!StringUtils.hasText(range)) {
-            return "";
-        }
-        /** 去掉所有空格 */
-        range = StringUtils.trimAllWhitespace(range);
-        String result = "";
-        String[] ranges = range.split(",");
-        for (String section : ranges) {
-            String oneSec = "";
-            if (!StringUtils.hasText(section)) {
-                continue;
-            }
-            String[] time = section.split("-");
-            if (time.length < 2) {
-                continue;
-            }
-            String stime = time[0];
-            String etime = time[1];
-            if (!StringUtils.hasText(stime) || !StringUtils.hasText(etime)) {
-                continue;
-            }
-            String[] stimes = stime.split(":");
-            String[] etimes = etime.split(":");
-            if (!isNumeric(stimes[0])) {
-                continue;
-            }
-            oneSec = oneSec + stimes[0];
-            if (stimes.length > 1) {
-                if (!isNumeric(stimes[1])) {
-                    continue;
-                }
-                if (stimes[1].length() < 2) {
-                    oneSec = oneSec + ":0" + stimes[1];
-                } else {
-                    oneSec = oneSec + ":" + stimes[1];
-                }
-            } else {
-                oneSec = oneSec + ":00";
-            }
-            if (!isNumeric(etimes[0])) {
-                continue;
-            }
-            oneSec = oneSec + "-" + etimes[0];
-            if (etimes.length > 1) {
-                if (!isNumeric(etimes[1])) {
-                    continue;
-                }
-                if (etimes[1].length() < 2) {
-                    oneSec = oneSec + ":0" + etimes[1];
-                } else {
-                    oneSec = oneSec + ":" + etimes[1];
-                }
-            } else {
-                oneSec = oneSec + ":00";
-            }
-            if (StringUtils.hasText(result)) {
-                result = result + "," + oneSec;
-            } else {
-                result = oneSec;
-            }
-        }
-        return result;
-    }
-    /**
-     * @author jipeng
-     * @param code
-     * @param msg
-     * @param data
-     * @return 构造返回JSON
-     */
-    public static JSONObject constructResponseJSON(int code, String msg,
-            String data) {
-        JSONObject jo = new JSONObject();
-        jo.put("code", code);
-        jo.put("msg", msg);
-        jo.put("data", data);
-        return jo;
-    }
-    /*
-     * author: jipeng date:2013-11-06 purpose: 构造异常返回json
-     */
-    public static JSONObject constructExceptionJSON(int code, String msg,
-            String data) {
-        JSONObject jo = new JSONObject();
-        jo.put("code", code);
-        jo.put("msg", msg);
-        jo.put("data", data);
-        return jo;
-    }
+
+
     /**
      * 待插入通配符的字符串
      * 
@@ -355,8 +240,8 @@ public class CommonUtil {
     }
     /**
      * 重新上传食物图片,删除原来的图片
-     * 
-     * @param 图片路径
+     * 图片路径
+     * @param
      * @return boolean flag
      */
     /*
@@ -435,7 +320,7 @@ public class CommonUtil {
     /**
      * 
      * @Description: 比较两个时间的时间差,返回单位为分钟,格式:yyyy-MM-dd HH:mm:ss
-     * @param String begin,String end 
+     * @param  begin, end
      * @return int
      * @author gr
      */
