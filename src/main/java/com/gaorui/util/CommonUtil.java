@@ -15,7 +15,7 @@ import java.util.UUID;
 public class CommonUtil {
    
     /**
-     * @author jipeng
+     * @author gr
      * @return
      * 
      *         构造返回json

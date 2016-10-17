@@ -49,6 +49,13 @@
     
     </bean>
 
+    <!-- SpringMvc 上传文件配置，暂时不写限制上传大小的参数 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="UTF-8"/>
+        <!-- 指定所上传文件的总大小不能超过200KB。注意maxUploadSize属性的限制不是针对单个文件，而是所有文件的容量之和 -->
+        <!--    <property name="maxUploadSize" value="200000"/>   -->
+    </bean>
+
     <!-- 配置springmvc的拦截器 -->
     <mvc:interceptors>
         <!-- 使用bean定义一个Interceptor，直接定义在mvc:interceptors根下面的Interceptor将拦截所有的请求 -->
