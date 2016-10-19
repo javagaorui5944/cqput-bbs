@@ -262,38 +262,23 @@ public class CommonUtil {
         }
         return result;
     }
-    
-    
+
+
     /**
-     * 
-     * @Title: getSystemTime 
-     * @Description: 得到系统时间
-     * @return: Date 时间格式：yyyy-MM-dd HH:mm:ss
-     * @throws ParseException 
+     *
+     * @return
+     * @throws ParseException
      */
-    public static Date getSystemTime() throws ParseException{
-        SimpleDateFormat dateFormater = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date=new Date();
+    public static Long getSystemTime() throws ParseException{
+        java.util.Date dt = new Date();
+        //System.out.println(dt.toString());   //java.util.Date的含义
+        long lSysTime1 = dt.getTime() / 1000;   //得到秒数，Date类型的getTime()返回毫秒数
         
 //		dateFormater.parse(dateFormater.format(Long.parseLong(data.getTalkingStartTime())))
-        return  dateFormater.parse(dateFormater.format(date));
+        return  lSysTime1;
         
     }
-    /**
-     * 
-     * @Title: getSystemTime 
-     * @Description: 得到系统时间
-     * @return: String 时间格式：yyyy-MM-dd HH:mm:ss
-     
-     */
-    public static String getStrSystemTime()  {
-        SimpleDateFormat dateFormater = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date=new Date();
-        
-//		dateFormater.parse(dateFormater.format(Long.parseLong(data.getTalkingStartTime())))
-        return   dateFormater.format(date);
-        
-    }
+
     
     /**
      * 

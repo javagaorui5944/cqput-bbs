@@ -12,5 +12,5 @@ public interface IShowTopic {
     int getTopicCount();
     Map<String,Object> ShowTopicDetails(int topicId);
     List<Map<String,Object>> ShowTopicComment(int topicId,int pageSize);
-
+    int AddTopicComment(int topicId,List<Integer> uIds,String content);
 }

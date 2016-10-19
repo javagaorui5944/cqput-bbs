@@ -20,4 +20,11 @@
     <select id="ShowTopicComment" resultType="map">
       select * from t_comment where  tid=#{topicId} limit #{pageSize},10;
     </select>
+
+    <insert id="AddTopicComment">
+        insert INTO t_comment(uid,to_uid,tid,content,device,create_time) VALUES
+        <foreach collection="uIds" item="uIds" index="index" separator="," >
+            (1,#{uIds},#{topicId},#{content},'pc',#{date})
+        </foreach>
+    </insert>
 </mapper>  
