@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserDao {
 	 List<UserBean> ShowUser();
+	 int GetUserIDByTId(int topicId);
 }

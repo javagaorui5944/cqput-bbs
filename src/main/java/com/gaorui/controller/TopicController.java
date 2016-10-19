@@ -2,6 +2,7 @@ package com.gaorui.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.gaorui.service.IShowNotice;
 import com.gaorui.service.IShowTopic;
 import com.gaorui.util.CommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,8 @@ import java.util.List;
 public class TopicController {
     @Autowired
     IShowTopic iShowTopic;
+    @Autowired
+    IShowNotice iShowNotice;
 
     /**
      * 返回topic列表,分页
@@ -101,8 +104,9 @@ public class TopicController {
             int topicId = (int)commentValueJson.get("topicId");
             List<Integer> uIds = (List<Integer>) commentValueJson.get("uIds");
             String content = commentValueJson.getString("content");
-            int res = iShowTopic.AddTopicComment(topicId,uIds,content);
-            if(res >0)
+            int resTopicComment = iShowTopic.AddTopicComment(topicId,uIds,content);
+            int resNoticComment = iShowNotice.AddNoticeComment(topicId,10);
+            if(resTopicComment >0 && resNoticComment>0)
                 return CommonUtil.constructResponse(1,"comment add success",null);
             else
                 return CommonUtil.constructResponse(0,"comment add fail",null);
