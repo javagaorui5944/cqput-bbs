@@ -7,4 +7,5 @@ import java.util.List;
  */
 public interface IShowNotice {
     int AddNoticeComment(int topicId, int uId);
+    int ADDNoticeAt(int topicId,List<Integer> uIds,int uId);
 }

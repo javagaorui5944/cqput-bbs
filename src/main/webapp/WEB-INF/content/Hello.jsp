@@ -10,7 +10,7 @@
 <script>
 
 	function funUpload() {
-		var strJSON = "{topicId:1,uIds:[2],content:'me'}";//得到的JSON
+		var strJSON = "{topicId:1,uIds:[2,3],content:'me'}";//得到的JSON
 
 		var commentValue = JSON.stringify(strJSON);
 

@@ -32,4 +32,16 @@ public class ImplShowNotice implements IShowNotice {
         int res = noticeDao.AddNoticeComment(topicId,uId,to_UId,date);
         return res;
     }
+
+    @Override
+    public int ADDNoticeAt(int topicId, List<Integer> uIds,int uId) {
+        Long date =null;
+        try {
+            date =CommonUtil.getSystemTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        int res = noticeDao.AddNoticeAt(topicId,uId,uIds,date);
+        return res;
+    }
 }

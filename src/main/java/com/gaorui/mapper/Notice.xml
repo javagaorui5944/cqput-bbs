@@ -8,5 +8,12 @@
       insert into t_notice(type,uid,to_uid,event_id,is_read,create_time)
       values('comment',#{uId},#{to_UId},#{topicId},0,#{date})
     </insert>
+    <insert id="AddNoticeAt">
+        insert into t_notice(type,uid,to_uid,event_id,is_read,create_time)  values
+        <foreach collection="to_UId" item="to_UId" index="index" separator="," >
+            ('at',#{uId},#{to_UId},#{topicId},0,#{date})
+        </foreach>
+
+    </insert>
 
 </mapper>  

@@ -105,8 +105,10 @@ public class TopicController {
             List<Integer> uIds = (List<Integer>) commentValueJson.get("uIds");
             String content = commentValueJson.getString("content");
             int resTopicComment = iShowTopic.AddTopicComment(topicId,uIds,content);
+            //私信推送功能后期上RabbitMq
             int resNoticComment = iShowNotice.AddNoticeComment(topicId,10);
-            if(resTopicComment >0 && resNoticComment>0)
+            int resNoticAt = iShowNotice.ADDNoticeAt(topicId,uIds,11);
+            if(resTopicComment >0 && resNoticComment>0 && resNoticAt>0)
                 return CommonUtil.constructResponse(1,"comment add success",null);
             else
                 return CommonUtil.constructResponse(0,"comment add fail",null);
