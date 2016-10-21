@@ -105,7 +105,7 @@ public class TopicController {
 
 
             JSONObject commentValueJson = JSON.parseObject(commentValue);
-            int topicId = (int)commentValueJson.get("topicId");
+            int topicId = commentValueJson.getIntValue("topicId");
             List<Integer> uIds = (List<Integer>) commentValueJson.get("uIds");
             String content = commentValueJson.getString("content");
             int resTopicComment = iShowTopic.AddTopicComment(topicId,uIds,content);
@@ -131,7 +131,17 @@ public class TopicController {
         if(topicValue.length() == 0)
             return  CommonUtil.constructResponse(0,"topic add null",null);
 
-        return  null;
+
+        JSONObject topicValueJson = JSON.parseObject(topicValue);
+
+        int nid = topicValueJson.getIntValue("nid");
+        String title = topicValueJson.getString("title");
+        String content = topicValueJson.getString("content");
+        int res = iShowTopic.AddTopic(10,nid,title,content);
+        if(res>0)
+            return CommonUtil.constructResponse(1,"add topic success",null);
+        else
+        return  CommonUtil.constructResponse(0,"add topic fail",null);
     }
 
     /**

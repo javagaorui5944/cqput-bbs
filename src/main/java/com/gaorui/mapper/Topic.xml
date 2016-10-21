@@ -27,4 +27,10 @@
             (1,#{uIds},#{topicId},#{content},'pc',#{date})
         </foreach>
     </insert>
+
+    <insert id="AddTopic">
+        insert INTO t_topic(uid,nid,title,content,is_top,is_essence,weight,create_time,update_time,status) VALUES
+
+            (#{uid},#{nid},#{title},#{content},0,0,0,#{create_time},#{update_time},1)
+    </insert>
 </mapper>  

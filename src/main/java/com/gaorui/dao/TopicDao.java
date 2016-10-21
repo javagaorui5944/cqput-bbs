@@ -18,4 +18,8 @@ public interface TopicDao {
     List<Map<String,Object>> ShowTopicComment(@Param("topicId") int topicId,@Param("pageSize") int pageSize);
     int AddTopicComment(@Param("topicId")int topicId,@Param("uIds") List<Integer> uIds,
                        @Param("content") String content,@Param("date") Long date);
+
+    int AddTopic(@Param("uid") int uid,@Param("nid") int nid,@Param("title") String title,
+                 @Param("content") String content,
+                 @Param("create_time") Long create_time,@Param("update_time") Long update_time);
 }

@@ -60,5 +60,20 @@ public class ImplShowTopic implements IShowTopic {
         return res;
     }
 
+    @Override
+    public int AddTopic(int uid, int nid, String title, String content) {
+
+        int res =0;
+        try {
+            Long date =  CommonUtil.getSystemTime();
+            res =topicDao.AddTopic(uid,nid,title,content,date,date);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return res;
+    }
+
 
 }
