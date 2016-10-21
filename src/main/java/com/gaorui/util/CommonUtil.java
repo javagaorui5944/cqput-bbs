@@ -357,5 +357,10 @@ public class CommonUtil {
         String s = new String(a);  
         //System.out.println(a);
         return s;  
-    }  
+    }
+
+    //判断string变量是否为空
+    public static boolean isNullOrBlank(String value){
+        return value == null|| "".equals(value.trim())||value.trim().equalsIgnoreCase(null);
+    }
 }
