@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 /**
@@ -114,4 +118,41 @@ public class TopicController {
                 return CommonUtil.constructResponse(0,"comment add fail",null);
     }
 
+
+    /**
+     * 发布主题
+     * @param topicValue
+     * @return
+     */
+    @RequestMapping(value = "AddTopic")
+    @ResponseBody
+    public JSONObject AddTopic(@RequestBody String topicValue){
+
+        if(topicValue.length() == 0)
+            return  CommonUtil.constructResponse(0,"topic add null",null);
+
+        return  null;
+    }
+
+    /**
+     * test text/html
+     * @param
+     * @return
+     */
+    @RequestMapping(value = "testHtml")
+    public void testHtml(HttpServletRequest request, HttpServletResponse response){
+
+        response.setContentType("text/html");
+        String S = "<Html>ssss</Html>";
+        try {
+            PrintWriter pw = response.getWriter();
+            pw.print(S);
+            pw.flush();
+            pw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
 }
