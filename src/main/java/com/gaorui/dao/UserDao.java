@@ -10,4 +10,6 @@ import org.springframework.stereotype.Repository;
 public interface UserDao {
 	 List<UserBean> ShowUser();
 	 int GetUserIDByTId(int topicId);
+	 List<Map<String,Object>> ShowUserNotice(int uId);
+	 UserBean ShowMeUser(int uId);
 }
