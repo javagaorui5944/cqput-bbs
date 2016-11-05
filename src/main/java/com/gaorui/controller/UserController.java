@@ -2,7 +2,6 @@ package com.gaorui.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.gaorui.util.ParamUtil;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,8 +11,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.gaorui.service.IShowUser;
 import com.gaorui.util.CommonUtil;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 @Controller
@@ -22,6 +24,7 @@ public class UserController {
 	@Autowired
 	private IShowUser iShowUser;
 
+	private static final int  MAX_PER_DAY = 5;
 
 	/**
 	 * 返回所有user
@@ -46,10 +49,24 @@ public class UserController {
 		}
 	 
 	 @RequestMapping(value="Hello")
-	 public String Hello(){
-	    	
-	    	return "Hello";
+	 @ResponseBody
+	 public JSONObject Hello(HttpSession session,HttpServletRequest request){
+
+		 	System.out.print(session.getId());
+
+		 return CommonUtil.constructResponse(1,"session cookie test",null);
 	    }
+
+	@RequestMapping(value="Me")
+	@ResponseBody
+	public JSONObject Me(HttpSession session,HttpServletRequest request){
+
+		Cookie[] cookies = request.getCookies();
+
+
+		return CommonUtil.constructResponse(1,"session cookie test",cookies);
+	}
+
 
 	/**
 	 * user个人信息
@@ -63,7 +80,7 @@ public class UserController {
 	}
 
 	/**
-	 * user个人信息
+	 * 授权github用户登录
 	 * @return
 	 */
 	@RequestMapping(value="RegisteredByGithub")
@@ -84,6 +101,39 @@ public class UserController {
 	}
 
 
+	/**
+	 * 5分钟有效验证码存放,值得思考的一个接口
+	 * @param phone
+	 * @param request
+     * @return
+     */
+	@RequestMapping(value = "sendMessage")
+	public JSONObject sendMessage(String phone, HttpServletRequest request){
+		//String phone=request.getParameter("phone");
+		//int times=userService.messageSendToday(phone);    //二次验证，单个手机号每日发送上限
+		int times =1;
+		if(times <= MAX_PER_DAY){
+			String checkCode= "";
+			final HttpSession httpSession=request.getSession();
+			httpSession.setAttribute("checkCode",checkCode);
+			//CheckCodeMessage checkCodeMessage=new CheckCodeMessage(phone,checkCode);
+			try {
+			//	HttpSender.batchSend(checkCodeMessage);
+				//TimerTask实现5分钟后从session中删除checkCode
+				final Timer timer=new Timer();
+				timer.schedule(new TimerTask() {
+					@Override
+					public void run() {
+						httpSession.removeAttribute("checkCode");
+						timer.cancel();
+					}
+				},5*60*1000);//5min
 
-
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+		return  null;
+	}
 }
