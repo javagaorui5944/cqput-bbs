@@ -44,8 +44,8 @@
         class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="contentType" value="text/html; charset=UTF-8" />
         <property name="cache" value="false" />
-        <property name="prefix" value="/WEB-INF/content/" />
-        <property name="suffix" value=".jsp" />
+        <property name="prefix" value="/WEB-INF/beetl/" />
+        <property name="suffix" value=".html" />
     
     </bean>
 

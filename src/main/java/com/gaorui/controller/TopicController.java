@@ -134,10 +134,10 @@ public class TopicController {
 
         JSONObject topicValueJson = JSON.parseObject(topicValue);
 
-        int nid = topicValueJson.getIntValue("nid");
+       // int nid = topicValueJson.getIntValue("nid");
         String title = topicValueJson.getString("title");
         String content = topicValueJson.getString("content");
-        int res = iShowTopic.AddTopic(10,nid,title,content);
+        int res = iShowTopic.AddTopic(10,13,title,content);
         if(res>0)
             return CommonUtil.constructResponse(1,"add topic success",null);
         else
