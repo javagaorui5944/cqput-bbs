@@ -12,11 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.json.Json;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by gaorui on 16/10/16.
@@ -67,26 +69,29 @@ public class TopicController {
     public JSONObject ShowTopicDetails
             (@RequestParam(value = "topicId" , required = true) int topicId){
 
-        return CommonUtil.constructResponse(1,"topicCount",iShowTopic.ShowTopicDetails(topicId));
+        List<Map<String,Object>> listmap_Commnent = iShowTopic.ShowTopicComment(topicId);
+        Map<String,Object> map_Details = iShowTopic.ShowTopicDetails(topicId);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("listmap_Commnent",listmap_Commnent);
+        jsonObject.put("map_Details",map_Details);
+
+        return CommonUtil.constructResponse(1,"topicCount",jsonObject);
     }
 
 
     /**
      * 返回贴子评论
      * @param topicId
-     * @param pageSize
+     * @param
      * @return
      */
     @RequestMapping(value="ShowTopicComment")
     @ResponseBody
     public JSONObject ShowTopicComment
-            (@RequestParam(value = "topicId" , required = true) int topicId,
-             @RequestParam(value = "pageSize" , required = false) Integer pageSize){
+            (@RequestParam(value = "topicId" , required = true) int topicId){
 
-          if(pageSize ==null)
-              pageSize =1;
 
-        return CommonUtil.constructResponse(1,"topicCount",iShowTopic.ShowTopicComment(topicId,pageSize));
+        return CommonUtil.constructResponse(1,"topicCount",iShowTopic.ShowTopicComment(topicId));
     }
 
     /**

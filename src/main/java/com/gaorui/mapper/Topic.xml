@@ -18,7 +18,7 @@
     </select>
 
     <select id="ShowTopicComment" resultType="map">
-      select * from t_comment where  tid=#{topicId} limit #{pageSize},10;
+  select u.login_name,c.content from t_comment c left join t_user u on c.uid = u.uid where c.tid=#{topicId}
     </select>
 
     <insert id="AddTopicComment">

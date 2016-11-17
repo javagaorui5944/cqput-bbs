@@ -76,7 +76,7 @@
                                                 console.log(data.data);
                                         }
                                         else {
-                                                newNode1+="<div><span>未登录</span></div>"
+                                                newNode1+=" <div><span><a class='current-menu-item' href='https://github.com/login/oauth/authorize?client_id=75e7694cd70a8fe807a9&state=10&redirect_uri=http://127.0.0.1:8090/cqput-bbs/User/RegisteredByGithub.do;'>Github</a></span></div><div><span>未登录</span></div>"
                                                 oTest1.innerHTML =  newNode1;
 
                                         }
@@ -161,7 +161,13 @@
                                         /*
                                          oTest1.innerHTML="";
                                          */
-                                        newNode1+="<span>"+data.data.content+"</span>";
+                                        newNode1+="<span>"+data.data.map_Details.content+"</span>";
+
+                                        for( var i=0;i<data.data.listmap_Commnent.length;i++){
+
+                                                newNode1+="<ul><li>"+data.data.listmap_Commnent[i].login_name+" :  "+data.data.listmap_Commnent[i].content+"</li></ul>";
+
+                                        }
                                         oTest1.innerHTML =  newNode1;
 
 
@@ -288,11 +294,8 @@
                 <div class="container" >
 
 
-                        <div class="logo-container"  >
-                        <a href="https://github.com/login/oauth/authorize?client_id=75e7694cd70a8fe807a9&state=10&redirect_uri=http://127.0.0.1:8090/cqput-bbs/User/RegisteredByGithub.do;">
-                                <!-- <img src="images/logo.png" alt="Github">-->
-                              <!--  <span class="current-menu-item" ></span>-->
-                                Github </a>
+                        <div class="logo-container"  id="github" >
+
 
                         </div>
                         <div id="user"></div>
