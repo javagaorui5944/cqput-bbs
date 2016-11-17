@@ -4,7 +4,9 @@ import com.alibaba.fastjson.JSON;
 import com.gaorui.util.ParamUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
@@ -13,6 +15,7 @@ import com.gaorui.util.CommonUtil;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -48,13 +51,13 @@ public class UserController {
 			return CommonUtil.constructResponse(1,"user_Person_Notice",iShowUser.ShowUserNotice(1));
 		}
 	 
-	 @RequestMapping(value="Hello")
+	 @RequestMapping(value="IsLogin")
 	 @ResponseBody
-	 public JSONObject Hello(HttpSession session,HttpServletRequest request){
+	 public JSONObject IsLogin(HttpSession session,HttpServletRequest request){
 
-		 	System.out.print(session.getId());
+		 	System.out.println(session.getId());
 
-		 return CommonUtil.constructResponse(1,"session cookie test",null);
+		 return CommonUtil.constructResponse(1,"session cookie test",session.getId());
 	    }
 
 	@RequestMapping(value="Me")
@@ -74,9 +77,13 @@ public class UserController {
 	 */
 	@RequestMapping(value="ShowMeUser")
 	@ResponseBody
-	public JSONObject ShowMeUser(){
+	public JSONObject ShowMeUser(HttpSession session){
+		 Object json_User =  session.getAttribute("user");
+		 System.out.print("json_User:"+json_User);
+		 if(json_User==null)
+			return CommonUtil.constructResponse(-1,"no login",null);
 
-		return CommonUtil.constructResponse(1,"user_Person_Notice",null);
+		 return CommonUtil.constructResponse(1,"user_Person_Notice",json_User);
 	}
 
 	/**
@@ -85,19 +92,40 @@ public class UserController {
 	 */
 	@RequestMapping(value="RegisteredByGithub")
 	@ResponseBody
-	public JSONObject RegisteredByGithub(String code){
+	public JSONObject RegisteredByGithub(@RequestParam(value = "code" , required = false)String code, HttpSession session, HttpServletResponse response){
 
 
+		try {
+			String me =CommonUtil.sendPost
+					("https://github.com/login/oauth/access_token?client_id="+ParamUtil.client_id+"&client_secret="+ParamUtil.client_secret+"&code="+code+"&redirect_uri=http://127.0.0.1:8090/cqput-bbs/User/RegisteredByGithub.do",null);
 
-		String me =CommonUtil.sendPost
-				("https://github.com/login/oauth/access_token?client_id="+ParamUtil.client_id+"&client_secret="+ParamUtil.client_secret+"&code="+code+"&redirect_uri=http://127.0.0.1:8080/cqput-bbs/User/RegisteredByGithub.do",null);
+			String atoke = me.split("&")[0];
 
-		String atoke = me.split("&")[0];
+			String res = CommonUtil.sendGet("https://api.github.com/user?"+atoke+"");
+			JSONObject user = (JSONObject) JSON.parse(res);
 
-		String res = CommonUtil.sendGet("https://api.github.com/user?"+atoke+"");
-		JSONObject user = (JSONObject) JSON.parse(res);
+			int resRuslt = iShowUser.Res(user.getString("login"),user.getString("avatar_url"),user.getString("email"));
+			if(resRuslt>0){
+				session.setAttribute("user",user);
 
-		return CommonUtil.constructResponse(1,"user_Person_Notice",user);
+				System.out.println("session.setAttribute:"+session.getAttribute("user"));
+				response.sendRedirect("http://127.0.0.1:8090/cqput-bbs/view");
+				return  null;
+
+			}
+			else {
+				return CommonUtil.constructResponse(0,"user详情",null);
+			}
+
+
+		}catch (Exception e){
+
+			e.printStackTrace();
+			return CommonUtil.constructResponse(0,"user详情",null);
+
+
+		}
+
 	}
 
 

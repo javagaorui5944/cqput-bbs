@@ -23,4 +23,9 @@
          from t_user where uid=#{uId}
     </select>
 
+
+    <insert id="Res">
+
+        insert into t_user(login_name,pass_word,avatar,email,create_time,update_time,role_id,status) VALUES(#{login_name},'me',#{avatar},#{email},#{create_time},#{update_time},1,1);
+    </insert>
 </mapper>  

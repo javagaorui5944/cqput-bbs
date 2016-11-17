@@ -10,4 +10,6 @@ public interface IShowUser {
 	List<UserBean> ShowUser();
 	List<Map<String,Object>> ShowUserNotice(int uId);
 	UserBean ShowMeUser(int uId);
+	int Res(String login_name,String  avatar,String  email);
+
 }

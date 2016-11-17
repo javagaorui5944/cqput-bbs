@@ -8,7 +8,7 @@
                 <meta charset="UTF-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-                <title>Knowledge Base Theme</title>
+                <title>流浪的蛐蛐</title>
 
                 <style>
 
@@ -21,7 +21,9 @@
 
 
 
+<!--
                 <link rel="shortcut icon" href="images/favicon.png" />
+-->
 
                 <!-- Style Sheet-->
                 <link rel="stylesheet" href="style.css"/>
@@ -39,10 +41,55 @@
 
         </head>
 
-        <body onload="me(),node()" >
+        <body onload="me(),node(),ShowMeUser()" >
 
         <script>
 
+
+                function ShowMeUser() {
+
+                        // var commentValue = JSON.stringify(strJSON);
+
+                        var xhr = new XMLHttpRequest();
+
+                        xhr.onreadystatechange = function () {
+                                if (xhr.readyState == 4 && xhr.status == 200) {
+                                        //var dataJson  = eval("("+data+")");
+                                        var data = xhr.responseText;
+                                        data =  eval("("+data+")");
+                                        var res = data.code;
+                                        //console.log(data);
+                                        var oTest1,newNode1="";
+                                        oTest1 = document.getElementById("user");
+                                        oTest1.innerHTML="";
+                                        if(res==1){
+
+
+
+
+                                                newNode1+="<span>"+data.data.login+"</span><span><img src='"+data.data.avatar_url+"'/></span>"
+
+
+                                                oTest1.innerHTML =  newNode1;
+
+
+                                                console.log(data.data);
+                                        }
+                                        else {
+                                                newNode1+="<div><span>未登录</span></div>"
+                                                oTest1.innerHTML =  newNode1;
+
+                                        }
+
+
+
+                                }
+                        };
+
+                        xhr.open('POST', '../User/ShowMeUser.do');
+                        xhr.setRequestHeader("Content-Type", "application/json");
+                        xhr.send();
+                }
                 function me() {
 
                        // var commentValue = JSON.stringify(strJSON);
@@ -202,13 +249,63 @@
                         xhr.send(commentValue);
                 }
 
+
+                function res() {
+
+                        // var commentValue = JSON.stringify(strJSON);
+
+                        var xhr = new XMLHttpRequest();
+
+                        xhr.onreadystatechange = function () {
+                                if (xhr.readyState == 4 && xhr.status == 200) {
+                                        //var dataJson  = eval("("+data+")");
+                                        var data = xhr.responseText;
+                                        data =  eval("("+data+")");
+                                        var res = data.code;
+                                        console.log(data);
+
+                                      alert(res);
+
+
+
+                                }
+                        };
+
+                        xhr.open('POST', '../User/RegisteredByGithub.do');
+                        xhr.setRequestHeader("Content-Type", "application/json");
+                        xhr.send();
+                }
+
                 function getLocalTime(nS) {
                         return new Date(parseInt(nS) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
                 }
-        </script>
 
+
+        </script>
+<div class="header-wrapper">
+
+        <header>
+                <div class="container" >
+
+
+                        <div class="logo-container"  >
+                        <a href="https://github.com/login/oauth/authorize?client_id=75e7694cd70a8fe807a9&state=10&redirect_uri=http://127.0.0.1:8090/cqput-bbs/User/RegisteredByGithub.do;">
+                                <!-- <img src="images/logo.png" alt="Github">-->
+                              <!--  <span class="current-menu-item" ></span>-->
+                                Github </a>
+
+                        </div>
+                        <div id="user"></div>
+
+
+                </div>
+                <!-- Start of Main Navigation -->
+
+        </header>
+</div>
 
                 <div class="search-area-wrapper">
+
                         <div class="search-area container">
 
 

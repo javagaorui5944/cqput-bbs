@@ -18,7 +18,7 @@ public class ForwardController {
 	 @RequestMapping(value="/index")
 	 public String ShowUser(){
 
-	    	return "common/index";
+	    	return "/index";
 	    }
 
 }

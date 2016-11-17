@@ -1,9 +1,11 @@
 package com.gaorui.service.impl;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
 import com.gaorui.bean.UserBean;
+import com.gaorui.util.CommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +32,18 @@ public class ImplShowUser implements IShowUser {
 	@Override
 	public UserBean ShowMeUser(int uId) {
 		return userDao.ShowMeUser(uId);
+	}
+
+	@Override
+	public int Res(String login_name, String avatar, String email) {
+
+		Long date = null;
+		try {
+			date = CommonUtil.getSystemTime();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return userDao.Res(login_name,avatar,email,date,date);
 	}
 
 
