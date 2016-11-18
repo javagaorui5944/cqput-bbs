@@ -11,10 +11,10 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class CommonUtil {
    
     /**
@@ -473,6 +473,16 @@ public class CommonUtil {
             e.printStackTrace();
         }
         return buffer.toString();
+    }
+
+    public static  List<String> patternLoiginName(String value){
+        List<String> user_LoignName = new ArrayList<String>();
+        Pattern pt = Pattern.compile("@\\w+([,\\.\\:\\;\\?\\!\\'\\\"]|\\s|，|。|？|；|！|‘|’|“|”)");
+        Matcher mt = pt.matcher(value);
+        while (mt.find()) {
+            user_LoignName.add(mt.group().replace("@",""));
+        }
+        return user_LoignName;
     }
 
 }

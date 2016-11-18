@@ -14,4 +14,5 @@ public interface UserDao {
 	 List<Map<String,Object>> ShowUserNotice(int uId);
 	 UserBean ShowMeUser(int uId);
 	 int Res(@Param("login_name")String login_name,@Param("avatar") String  avatar, @Param("email")String  email, @Param("create_time") Long create_time, @Param("update_time") Long update_time);
+	 List<Integer> GetIdByName(@Param("login_Name") List<String> login_Name);
 }

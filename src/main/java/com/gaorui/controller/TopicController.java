@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.gaorui.service.IShowNotice;
 import com.gaorui.service.IShowTopic;
+import com.gaorui.service.IShowUser;
 import com.gaorui.util.CommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,7 +31,8 @@ public class TopicController {
     IShowTopic iShowTopic;
     @Autowired
     IShowNotice iShowNotice;
-
+    @Autowired
+    private IShowUser iShowUser;
     /**
      * 返回topic列表,分页
      * @param pageSize 第几页
@@ -103,20 +105,25 @@ public class TopicController {
     @ResponseBody
     public JSONObject AddTopicComment(@RequestBody String commentValue){
 
-
+                System.out.println("commentValue:"+commentValue);
             if(commentValue.length() == 0)
                 return CommonUtil.constructResponse(0,"comment null",null);
 
 
 
             JSONObject commentValueJson = JSON.parseObject(commentValue);
-            int topicId = commentValueJson.getIntValue("topicId");
-            List<Integer> uIds = (List<Integer>) commentValueJson.get("uIds");
             String content = commentValueJson.getString("content");
+            int topicId = commentValueJson.getIntValue("topicId");
+            List<String> string_LoginName = CommonUtil.patternLoiginName(content);
+
+            List<Integer> uIds = iShowUser.GetIdByName(string_LoginName);
+
+
+
             int resTopicComment = iShowTopic.AddTopicComment(topicId,uIds,content);
             //私信推送功能后期上RabbitMq
-            int resNoticComment = iShowNotice.AddNoticeComment(topicId,10);
-            int resNoticAt = iShowNotice.ADDNoticeAt(topicId,uIds,11);
+            int resNoticComment = iShowNotice.AddNoticeComment(topicId,1);
+            int resNoticAt = iShowNotice.ADDNoticeAt(topicId,uIds,1);
             if(resTopicComment >0 && resNoticComment>0 && resNoticAt>0)
                 return CommonUtil.constructResponse(1,"comment add success",null);
             else

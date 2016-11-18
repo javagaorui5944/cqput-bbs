@@ -28,4 +28,12 @@
 
         insert into t_user(login_name,pass_word,avatar,email,create_time,update_time,role_id,status) VALUES(#{login_name},'me',#{avatar},#{email},#{create_time},#{update_time},1,1);
     </insert>
+
+    <select id="GetIdByName" resultType="int">
+        select uid from t_user where login_name in(
+        <foreach collection="login_Name" item="login_Name" index="index" separator="," >
+            #{login_Name}
+        </foreach>
+        )
+    </select>
 </mapper>  

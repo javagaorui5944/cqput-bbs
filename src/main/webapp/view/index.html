@@ -46,6 +46,49 @@
         <script>
 
 
+                function  comment(topicId) {
+                        var s ='+s';
+                        var comment = document.getElementById(topicId+s).value;
+
+                        console.log(comment);
+                        var commentValue = {"topicId": topicId, "content": comment.toString()};
+
+
+
+                          commentValue = JSON.stringify(commentValue);
+
+                        var xhr = new XMLHttpRequest();
+
+                        xhr.onreadystatechange = function () {
+                                if (xhr.readyState == 4 && xhr.status == 200) {
+                                        //var dataJson  = eval("("+data+")");
+                                        var data = xhr.responseText;
+                                        data =  eval("("+data+")");
+                                        var res = data.code;
+                                        if(res>0){
+                                                alert("s");
+                                        }
+                                        else {
+                                                alert("f");
+                                        }
+
+
+
+                                }
+                        };
+
+                        xhr.open('POST', '../Topic/AddTopicComment.do');
+                        xhr.setRequestHeader("Content-Type", "application/json");
+                        xhr.send(commentValue);
+
+
+                }
+                function atme(login_name,id) {
+                        var s ='+s';
+                         document.getElementById(id+s).value+='@'+login_name+'  ';
+
+                }
+
                 function ShowMeUser() {
 
                         // var commentValue = JSON.stringify(strJSON);
@@ -73,7 +116,6 @@
                                                 oTest1.innerHTML =  newNode1;
 
 
-                                                console.log(data.data);
                                         }
                                         else {
                                                 newNode1+=" <div><span><a class='current-menu-item' href='https://github.com/login/oauth/authorize?client_id=75e7694cd70a8fe807a9&state=10&redirect_uri=http://127.0.0.1:8090/cqput-bbs/User/RegisteredByGithub.do;'>Github</a></span></div><div><span>未登录</span></div>"
@@ -113,22 +155,13 @@
 /*
                                                         newNode1+=" <div onclick='detail("+data.data[i].tid+")'   class='article-entry standard'><h4><a href='javascript:return false;'>"+data.data[i].title+"</a></h4> <span class='article-meta'>"+getLocalTime(data.data[i].update_time)+"<a href='' title='article-meta'>--"+data.data[i].login_name+"</a></span> <span class='like-count'>"+data.data[i].weight+"</span> </div>";
 */
-                                                        newNode1+="<article class='format-standard type-post hentry clearfix'> <header class='clearfix'> <h3 class='post-title'> <div onclick='detail("+data.data[i].tid+")'>"+data.data[i].title+"</div> </h3> <div class='post-meta clearfix'><span class='date'>"+getLocalTime(data.data[i].update_time)+"</span> <span class='category'><a href='#' title='View all posts in Server &amp; Database'>--"+data.data[i].login_name+"</a></span> <span class='like-count'>"+data.data[i].weight+"</span> </div> </header> <p  id='"+data.data[i].tid+"'></p> </article>"
-
-
-
-
-
-
-
-
+                                                        newNode1+="<article class='format-standard type-post hentry clearfix'> <header class='clearfix'> <h3 class='post-title'> <div onclick='detail("+data.data[i].tid+")'>"+data.data[i].title+"</div> </h3> <div class='post-meta clearfix'><span class='date'>"+getLocalTime(data.data[i].update_time)+"</span> <span class='category'><a href='#' title='View all posts in Server &amp; Database'>"+data.data[i].login_name+"</a></span> <span class='like-count'>"+data.data[i].weight+"</span> </div> </header> <p  id='"+data.data[i].tid+"'></p> </article>"
 
 
                                                 }
                                                 oTest1.innerHTML =  newNode1;
 
 
-                                                console.log(data.data);
                                         }
                                         else {
                                                 alert(data.data);
@@ -164,10 +197,12 @@
                                         newNode1+="<span>"+data.data.map_Details.content+"</span>";
 
                                         for( var i=0;i<data.data.listmap_Commnent.length;i++){
-
-                                                newNode1+="<ul><li>"+data.data.listmap_Commnent[i].login_name+" :  "+data.data.listmap_Commnent[i].content+"</li></ul>";
+                                                         var s1 = data.data.listmap_Commnent[i].login_name;
+                                                var kk = "'"+s1+"'";
+                                                newNode1+="<ul><li><a>"+data.data.listmap_Commnent[i].login_name+"</a>:"+data.data.listmap_Commnent[i].content+"</li><a href='javascript:void(0)' onclick=atme("+kk+","+id+")>回复<a></ul>";
 
                                         }
+                                        newNode1+="<ul><li><a href='javascript:void(0)' onclick='comment("+id+")'>发表:</a><input type='text' name='text' id='"+id+"+s' value=''></li></ul>"
                                         oTest1.innerHTML =  newNode1;
 
 
@@ -193,7 +228,6 @@
                                         var data = xhr.responseText;
                                         data =  eval("("+data+")");
                                         var res = data.code;
-                                        console.log(data);
 
                                         var oTest1,newNode1="";
                                         oTest1 = document.getElementById("tagcloud");
@@ -224,7 +258,6 @@
                         var strJSON ={title:document.getElementById("text").value,content:content+htmlcode};
                          var commentValue = JSON.stringify(strJSON);
 
-                        console.log(commentValue);
                         var xhr = new XMLHttpRequest();
 
                         xhr.onreadystatechange = function () {
@@ -268,7 +301,6 @@
                                         var data = xhr.responseText;
                                         data =  eval("("+data+")");
                                         var res = data.code;
-                                        console.log(data);
 
                                       alert(res);
 

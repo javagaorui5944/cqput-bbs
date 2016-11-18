@@ -46,5 +46,11 @@ public class ImplShowUser implements IShowUser {
 		return userDao.Res(login_name,avatar,email,date,date);
 	}
 
+	@Override
+	public List<Integer> GetIdByName(List<String> login_Name) {
+
+		return userDao.GetIdByName(login_Name);
+	}
+
 
 }
